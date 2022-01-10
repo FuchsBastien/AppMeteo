@@ -24,60 +24,54 @@ if(navigator.geolocation) {
 
 /*fonction appel API*/
 function AppelAPI(long, lat) {
-      //console.log(long, lat)
-      //on ajoute ${} et &exclude=minutely&units=metric&lang=fr pour exclure min, unité en m et en français
-      fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEAPI}`)
-      //on transforme les données en fichier json
-      .then((reponse) => {
-          return reponse.json();
-      })
-      //on stocke les données du fichier json dans une variable
-      .then((data) => {
-          console.log(data)
-          resultatsAPI = data;
+    //console.log(long, lat)
+    //on ajoute ${} et &exclude=minutely&units=metric&lang=fr pour exclure min, unité en m et en français
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEAPI}`)
+    //on transforme les données en fichier json
+    .then((reponse) => {
+        return reponse.json();
+    })
+    //on stocke les données du fichier json dans une variable
+    .then((data) => {
+        console.log(data)
+        resultatsAPI = data;
             
         //on appelle des données de ce fichier json
         temps.innerText = resultatsAPI.current.weather[0].description;
         //on utilise les `` pour rajouter le signe des degrés °, ${} pour inclure les données et math.trunc pour enlever les chiffres après la virgule
-        
         temperature.innerText = `${Math.trunc(resultatsAPI.current.temp)}°`
         localisation.innerText = resultatsAPI.timezone;
-      }) 
+    
 
+        // les heures, par tranche de trois, avec leur temperature.
+        //heure actuel
+        let heureActuelle = new Date().getHours();
 
-      // les heures, par tranche de trois, avec leur temperature.
-      //heure actuel
-      let heureActuelle = new Date().getHours();
+        for (let i = 0; i < heure.length; i++) {
+            
+            // on ajoute 3h à chaque fois
+            let heureIncr = heureActuelle + i * 3;
 
-      for(let i = 0; i < heure.length; i++) {
-          
-         // on ajoute 3h à chaque fois
-          let heureIncr = heureActuelle + i * 3;
-
-          // si nombre heures > 24 on enleve 24
-          if(heureIncr > 24) {
+            // si nombre heures > 24 on enleve 24
+            if (heureIncr > 24) {
             heure[i].innerText = `${heureIncr - 24} h`;
             // sinon si nombre heures = 24 on met 00 
-        } else if(heureIncr === 24) {
-            heure[i].innerText = "00 h"
-            // sinon on met l'heure
-        } else {
-            heure[i].innerText = `${heureIncr} h`;
+            } else if(heureIncr === 24) {
+                heure[i].innerText = "00 h"
+                // sinon on met l'heure
+            } else {
+                heure[i].innerText = `${heureIncr} h`;
+            }
         }
 
-      }
-   
+        // temp pour 3h
+        for (let j = 0; j < tempPourH.length; j++) {
+            tempPourH[j].innerText = `${Math.trunc(resultatsAPI.hourly[j * 3].temp)}°`
+        }
 
 
 
-
-
-
-
-
-
-
-
+    }) 
 
 
 
