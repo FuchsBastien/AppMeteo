@@ -54,9 +54,16 @@ function AppelAPI(long, lat) {
          // on ajoute 3h à chaque fois
           let heureIncr = heureActuelle + i * 3;
 
-          heure[i].innerText = `${heureIncr} h`;
-
-         
+          // si nombre heures > 24 on enleve 24
+          if(heureIncr > 24) {
+            heure[i].innerText = `${heureIncr - 24} h`;
+            // sinon si nombre heures = 24 on met 00 
+        } else if(heureIncr === 24) {
+            heure[i].innerText = "00 h"
+            // sinon on met l'heure
+        } else {
+            heure[i].innerText = `${heureIncr} h`;
+        }
 
       }
    
