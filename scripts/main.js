@@ -1,3 +1,5 @@
+import tabJoursEnOrdre from './Utilitaire/gestionTemps.js';
+
 const CLEAPI = 'dc6213a6c3ef2d2335152ed981eadef4';
 let resultatsAPI ;
 
@@ -42,13 +44,11 @@ function AppelAPI(long, lat) {
         temperature.innerText = `${Math.trunc(resultatsAPI.current.temp)}°`
         localisation.innerText = resultatsAPI.timezone;
     
-
-        // les heures, par tranche de trois, avec leur temperature.
         //heure actuel
         let heureActuelle = new Date().getHours();
 
+        // les heures, par tranche de 3
         for (let i = 0; i < heure.length; i++) {
-            
             // on ajoute 3h à chaque fois
             let heureIncr = heureActuelle + i * 3;
 
@@ -64,8 +64,9 @@ function AppelAPI(long, lat) {
             }
         }
 
-        // temp pour 3h
+        // température pour 3h
         for (let j = 0; j < tempPourH.length; j++) {
+            //on prend la température 3h après la précédente
             tempPourH[j].innerText = `${Math.trunc(resultatsAPI.hourly[j * 3].temp)}°`
         }
 
