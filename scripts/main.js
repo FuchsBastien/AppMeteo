@@ -10,7 +10,7 @@ const heure = document.querySelectorAll('.heure-nom-prevision');
 const tempPourH = document.querySelectorAll('.heure-prevision-valeur');
 const jours = document.querySelectorAll('.jour-prevision-nom');
 const tempJoursDiv = document.querySelectorAll('.jour-prevision-temp');
-console.log(tempJoursDiv);
+const imgIcone = document.querySelector('.logo-meteo');
 
 
 /*condition si localisation activée ou désactivée*/
@@ -82,6 +82,14 @@ function AppelAPI(long, lat) {
         // température par jour
         for (let m = 0; m < 7; m++) {
             tempJoursDiv[m].innerText = `${Math.trunc(resultatsAPI.daily[m + 1].temp.day)}°`
+        }
+
+        // Icone dynamique 
+        if(heureActuelle >= 6 && heureActuelle < 21) {
+            // on récupère le petit code de l'icone
+            imgIcone.src = `ressources/jour/${resultatsAPI.current.weather[0].icon}.svg`
+        } else  {
+           imgIcone.src = `ressources/nuit/${resultatsAPI.current.weather[0].icon}.svg`
         }
 
 
