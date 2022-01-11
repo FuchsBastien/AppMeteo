@@ -11,6 +11,7 @@ const tempPourH = document.querySelectorAll('.heure-prevision-valeur');
 const jours = document.querySelectorAll('.jour-prevision-nom');
 const tempJoursDiv = document.querySelectorAll('.jour-prevision-temp');
 const imgIcone = document.querySelector('.logo-meteo');
+const chargementContainer = document.querySelector('.overlay-icone-chargement');
 
 
 /*condition si localisation activée ou désactivée*/
@@ -23,7 +24,7 @@ if(navigator.geolocation) {
         AppelAPI(long,lat);
 
     }, () => {
-        alert(`Vous avez refusé la géolocalisation, l'application ne peur pas fonctionner, veuillez l'activer.!`)
+        alert(`Vous avez refusé la géolocalisation, l'application ne peut pas fonctionner, veuillez l'activer!`)
     })
 }
 
@@ -89,9 +90,10 @@ function AppelAPI(long, lat) {
             // on récupère le petit code de l'icone
             imgIcone.src = `ressources/jour/${resultatsAPI.current.weather[0].icon}.svg`
         } else  {
-           imgIcone.src = `ressources/nuit/${resultatsAPI.current.weather[0].icon}.svg`
+            imgIcone.src = `ressources/nuit/${resultatsAPI.current.weather[0].icon}.svg`
         }
 
+        chargementContainer.classList.add('disparition');
 
     }) 
 
