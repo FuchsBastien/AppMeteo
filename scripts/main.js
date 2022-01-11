@@ -1,13 +1,17 @@
 import tabJoursEnOrdre from './Utilitaire/gestionTemps.js';
+//console.log(tabJoursEnOrdre);
 
 const CLEAPI = 'dc6213a6c3ef2d2335152ed981eadef4';
 let resultatsAPI ;
-
 const temps = document.querySelector('.temps');
 const temperature = document.querySelector('.temperature');
 const localisation = document.querySelector('.localisation');
 const heure = document.querySelectorAll('.heure-nom-prevision');
 const tempPourH = document.querySelectorAll('.heure-prevision-valeur');
+const jours = document.querySelectorAll('.jour-prevision-nom');
+const tempJoursDiv = document.querySelectorAll('.jour-prevision-temp');
+console.log(tempJoursDiv);
+
 
 /*condition si localisation activée ou désactivée*/
 if(navigator.geolocation) {
@@ -33,7 +37,7 @@ function AppelAPI(long, lat) {
     .then((reponse) => {
         return reponse.json();
     })
-    //on stocke les données du fichier json dans une variable
+    //on stocke les données du fichier json dans une variable (noté en haut de la page)
     .then((data) => {
         console.log(data)
         resultatsAPI = data;
@@ -44,7 +48,7 @@ function AppelAPI(long, lat) {
         temperature.innerText = `${Math.trunc(resultatsAPI.current.temp)}°`
         localisation.innerText = resultatsAPI.timezone;
     
-        //heure actuel
+        //heure actuelle
         let heureActuelle = new Date().getHours();
 
         // les heures, par tranche de 3
@@ -70,6 +74,15 @@ function AppelAPI(long, lat) {
             tempPourH[j].innerText = `${Math.trunc(resultatsAPI.hourly[j * 3].temp)}°`
         }
 
+        // 3 premières lettres des jours de la semaine
+        for (let k = 0; k < tabJoursEnOrdre.length; k++) {
+            jours[k].innerText = tabJoursEnOrdre[k].slice(0,3);
+        }
+
+        // température par jour
+        for (let m = 0; m < 7; m++) {
+            tempJoursDiv[m].innerText = `${Math.trunc(resultatsAPI.daily[m + 1].temp.day)}°`
+        }
 
 
     }) 
